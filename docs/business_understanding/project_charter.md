@@ -6,7 +6,7 @@ Predicción de la duración de viajes en taxis verdes de la Ciudad de Nueva York
 
 ## **Objetivo del Proyecto**
 
-El objetivo principal del presente proyecto es desarrollar un sistema de aprendizaje automático capaz de predecir con alta precisión la duración en minutos (Tiempo Estimado de Llegada - ETA) de un viaje en taxi verde (*Green Taxi / Boro Taxi*) en la ciudad de Nueva York, utilizando información disponible al momento de solicitar o iniciar el servicio (zona de origen, zona de destino, distancia estimada, franja horaria y día de la semana). 
+El objetivo principal del presente proyecto es desarrollar un sistema de aprendizaje automático capaz de predecir con alta precisión la duración en minutos (Tiempo Estimado de Llegada - ETA) de un viaje en taxi verde (*Green Taxi / Boro Taxi*) en la ciudad de Nueva York, utilizando información disponible al momento de solicitar o iniciar el servicio (zona de origen, zona de destino, distancia estimada (en producción, la calculada por el servicio de rutas al solicitar el viaje), franja horaria y día de la semana). 
 
 Esta predicción permite optimizar tres procesos críticos de negocio: ofrecer estimaciones confiables de llegada al pasajero, calcular tarifas dinámicas o anticipadas de manera transparente y mejorar la asignación eficiente de conductores en los distintos distritos (*boroughs*) de la ciudad. El problema se formula como una tarea de **regresión supervisada**, cuya métrica principal de evaluación será el **RMSE (Root Mean Squared Error)** y como métrica secundaria el **MAE (Mean Absolute Error)** expresados en minutos.
 
@@ -22,7 +22,7 @@ Esta predicción permite optimizar tres procesos críticos de negocio: ofrecer e
 
 - Control de versiones de datos mediante **DVC**, registro del modelo ganador en el *Model Registry* de MLflow, exposición mediante una API REST construida con **FastAPI** (endpoint `/predict`) y evaluación de *data drift* mes a mes con **Evidently**.
 
-- Superar significativamente el desempeño de la línea base (Regresión Lineal), logrando reducir el RMSE y el MAE en minutos sobre datos futuros (evaluación temporal de marzo en adelante entrenando con enero y febrero).
+- Superar el desempeño de la línea base (Regresión Lineal), con una meta de reducción de al menos 15 % en el RMSE sobre datos futuros (entrenamiento en enero, validación en febrero y evaluación mensual de marzo a diciembre de 2024).
 
 ### Excluye:
 
@@ -44,7 +44,7 @@ El proyecto se desarrollará siguiendo el marco metodológico estándar **CRISP-
 
 4. **Despliegue:** Promoción del mejor modelo en el *Model Registry* de MLflow y construcción de un microservicio de inferencia con FastAPI (y empaquetado en Docker).
 
-5. **Evaluación, Drift y Monitoreo:** Validación temporal fuera de muestra (entrenamiento en enero-febrero y evaluación mensual desde marzo en adelante), generando reportes de degradación y *data drift* con Evidently para establecer políticas de reentrenamiento.
+5. **Evaluación, Drift y Monitoreo:** Validación temporal fuera de muestra (entrenamiento en enero, validación en febrero para el ajuste con Optuna y evaluación mensual de marzo a diciembre de 2024), generando reportes de degradación y *data drift* con Evidently para establecer políticas de reentrenamiento.
 
 ## **Cronograma**
 
@@ -53,7 +53,7 @@ El proyecto se desarrollará siguiendo el marco metodológico estándar **CRISP-
 | Entendimiento del negocio y carga de datos | 11 días | del 16 de noviembre al 26 de noviembre |
 | Preprocesamiento, análisis exploratorio | 11 días | del 23 de noviembre al 03 de diciembre |
 | Modelamiento y extracción de características | 11 días | del 30 de noviembre al 10 de diciembre |
-| Despliegue | 11 días | del 07 de diciembre al 17 de julio |
+| Despliegue | 11 días | del 07 de diciembre al 17 de diciembre |
 | Evaluación y entrega final | 6 días | del 14 de diciembre al 19 de diciembre |
 
 Fechas ajustadas al tiempo actual que tenemos para desarrollar cada fase del proyecto y en la última semana propuesta la entrega consolidada del proyecto final de aula.
@@ -81,17 +81,17 @@ Fechas ajustadas al tiempo actual que tenemos para desarrollar cada fase del pro
 
 ## **Stakeholders**
 
-- Interesados en mejorar la asignación de vehículos según la duración esperada de los trayectos en los *boroughs* exteriores (Brooklyn, Queens, Bronx, Staten Island y norte de Manhattan).
+- Operadores de flota y la TLC: interesados en mejorar la asignación de vehículos según la duración esperada de los trayectos en los *boroughs* exteriores (Brooklyn, Queens, Bronx, Staten Island y norte de Manhattan).
 
-- Beneficiarios finales que requieren estimaciones precisas de tiempo de llegada (ETA) y tarifas predecibles antes de abordar.
+- Pasajeros: beneficiarios finales que requieren estimaciones precisas de tiempo de llegada (ETA) y tarifas predecibles antes de abordar.
 
-- Responsables de auditar la reproducibilidad del código, el versionamiento de datos/modelos y la calidad de las métricas de desempeño.
+- Equipo docente del diplomado: responsables de auditar la reproducibilidad del código, el versionamiento de datos/modelos y la calidad de las métricas de desempeño.
 
 ## **Aprobaciones**
 
 - Dilson Lazaro Ospino
 - Daniel Molina Sánchez
-- Sebastian Paéz Rojas
+- Sebastian Paez Rojas
 
 _Nota:_ Al ser un ejercicio académico y colaborativo proponemos un trabajo juicioso donde cada rol debe participar activamente y contribuir en la construcción integral de los productos a entregar en cada fase.
 
